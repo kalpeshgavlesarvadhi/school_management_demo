@@ -1,58 +1,53 @@
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import PersonIcon from '@mui/icons-material/Person';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/system';
+import Header from 'components/Header';
+import Sidebar from 'components/Sidebar';
+import DashboardPage from 'pages/DashboardPage';
+import SettingsPage from 'pages/SettingPage';
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App() {
+export const theme = createTheme({
+  mixins: {
+    toolbar: {
+      minHeight: 56, // Adjust the height according to your design
+    },
+  },
+  // Other theme configuration
+});
+
+const user = {
+  name: 'John Doe',
+  role: 'Admin',
+  avatarUrl: 'https://example.com/avatar.jpg', // Replace with actual avatar URL
+};
+
+const App: React.FC = () => {
+  const menuItems = [
+    { icon: <AssignmentIcon />, text: 'Assignments', route: '/dashboard' },
+    { icon: <PersonIcon />, text: 'Profile', route: '/profile' },
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div style={{ display: 'flex' }}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <Sidebar menuItems={menuItems} />
+          <div style={{ flex: 1 }}>
+            <Header user={user} />
+            <div style={{ padding: '16px' }}>
+              <Routes>
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+              </Routes>
+            </div>
+          </div>
+        </ThemeProvider>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
