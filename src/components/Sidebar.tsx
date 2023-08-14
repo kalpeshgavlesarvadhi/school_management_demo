@@ -14,15 +14,16 @@ import {
   ListItemText,
   Theme,
   styled,
+  useMediaQuery,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom'; // Use NavLink here
+import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 180;
 const drawerWidthCollapsed = 85;
 
-const DrawerHeader = styled('div')(({ theme }: { theme: Theme }) => ({
+export const DrawerHeader = styled('div')(({ theme }: { theme: Theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -30,20 +31,18 @@ const DrawerHeader = styled('div')(({ theme }: { theme: Theme }) => ({
   ...((theme.mixins as any).toolbar as any),
 }));
 
-const BottomIcons = styled('div')({
+export const BottomIcons = styled('div')({
   position: 'absolute',
   bottom: '16px',
   width: '100%',
   alignItems: 'center',
 });
 
-const CustomListItemIcon = styled(ListItemIcon)(
-  ({ theme }: { theme: Theme }) => ({
-    justifyContent: 'center',
-  })
-);
+export const CustomListItemIcon = styled(ListItemIcon)(() => ({
+  justifyContent: 'center',
+}));
 
-const LogoContainer = styled('div')({
+export const LogoContainer = styled('div')({
   display: 'flex',
   alignItems: 'center',
   padding: '10px', // Add 'px' unit
@@ -51,28 +50,50 @@ const LogoContainer = styled('div')({
   right: -10,
 });
 
-const LogoTextContainer = styled('div')({
+export const LogoTextContainer = styled('div')({
   flexDirection: 'row',
 });
-const LogoImage = styled('img')({
+export const LogoImage = styled('img')({
   width: '40px',
   height: '40px',
 });
 
-const LogoText = styled('p')({
+export const LogoText = styled('p')({
   fontSize: '14px',
   fontWeight: 'bold',
   margin: '0',
 });
 
-// const ActiveNavLink = styled(NavLink)(({ theme }) => ({
-//   color: theme.palette.primary.main, // Change this to your desired active link color
-//   fontWeight: 'bold',
-// }));
+export const StyledNavLink = styled(NavLink)(({ theme }) => ({
+  textDecoration: 'none',
+  color: 'inherit',
+  '&.active': {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    '& .MuiListItemIcon-root': {
+      color: theme.palette.primary.contrastText,
+    },
+  },
+  '&:hover': {
+    backgroundColor: '#2b76d25e !important',
+    color: 'inherit',
+    '& .MuiListItemIcon-root': {
+      color: 'inherit',
+    },
+  },
+}));
 
 const Sidebar: React.FC<any> = ({ menuItems }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const StyledDrawer = styled(Drawer)(({ theme, open }) => ({
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm')
+  );
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isSmallScreen);
+
+  if (isSmallScreen) {
+    return null; // Don't render anything on small screens
+  }
+
+  const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: isSidebarOpen ? drawerWidth : drawerWidthCollapsed,
     display: 'flex',
     flexDirection: 'column',
@@ -80,7 +101,7 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
     alignItems: 'center',
     flexShrink: 0,
     zIndex: theme.zIndex.drawer + 2,
-    transition: 'width 2s ease-in-out !important',
+    // transition: 'width 2s ease-in-out !important',
     '& .MuiDrawer-paper': {
       width: isSidebarOpen ? drawerWidth : drawerWidthCollapsed,
       transition: 'width 2s ease-in-out ',
@@ -90,10 +111,10 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
     },
 
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      width: isSidebarOpen ? '100%' : 0,
 
       '& .MuiDrawer-paper': {
-        width: '100%',
+        width: isSidebarOpen ? '100%' : 0,
       },
     },
   }));
@@ -103,18 +124,19 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
   };
 
   return (
+    // <Drawer >
     <StyledDrawer variant="permanent" anchor="left">
       <div
         style={{
           width: isSidebarOpen ? drawerWidth : drawerWidthCollapsed,
           position: 'relative',
           height: '100vh',
-          transition: 'width 2s ease-in-out ',
+          transition: 'width 0.2s ease-in-out ',
         }}
       >
         <DrawerHeader sx={{ padding: '0' }}>
           <LogoContainer>
-            <LogoImage src="logo.png" alt="School Logo" />
+            <LogoImage src="schoollogo.png" alt="School Logo" />
 
             {isSidebarOpen && (
               <LogoTextContainer>
@@ -151,7 +173,7 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
           </LogoContainer>
         </DrawerHeader>
         <List>
-          <ListItem button component={NavLink} to="/dashboard">
+          <ListItem button component={StyledNavLink} to="/">
             <CustomListItemIcon>
               <Dashboard />
             </CustomListItemIcon>
@@ -161,7 +183,7 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
             <ListItem
               button
               key={item.text}
-              component={NavLink}
+              component={StyledNavLink}
               to={item.route}
             >
               <CustomListItemIcon>{item.icon}</CustomListItemIcon>
@@ -171,13 +193,13 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
         </List>
         <BottomIcons>
           <List>
-            <ListItem button component={NavLink} to="/settings">
+            <ListItem button component={StyledNavLink} to="/settings">
               <CustomListItemIcon>
                 <Settings />
               </CustomListItemIcon>
               <ListItemText primary={isSidebarOpen ? 'Settings' : ''} />
             </ListItem>
-            <ListItem button component={NavLink} to="/logout">
+            <ListItem button component={StyledNavLink} to="/logout">
               <CustomListItemIcon>
                 <ExitToApp />
               </CustomListItemIcon>
@@ -187,6 +209,7 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
         </BottomIcons>
       </div>
     </StyledDrawer>
+    // </Drawer>
   );
 };
 

@@ -1,11 +1,14 @@
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import PersonIcon from '@mui/icons-material/Person';
+import { PersonAdd, Schedule } from '@mui/icons-material';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/system';
-import Header from 'components/Header';
+import Navbar from 'components/Navbar';
 import Sidebar from 'components/Sidebar';
 import DashboardPage from 'pages/DashboardPage';
+import SchedulePage from 'pages/SchedulePage';
+import SchedulesOfTeachers from 'pages/SchedulesOfTeachers';
 import SettingsPage from 'pages/SettingPage';
+import AddTeacher from 'pages/forms/AddTeacher';
+import LeaveManagement from 'pages/forms/LeaveManagement';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -21,13 +24,19 @@ export const theme = createTheme({
 const user = {
   name: 'John Doe',
   role: 'Admin',
-  avatarUrl: 'https://example.com/avatar.jpg', // Replace with actual avatar URL
+  avatarUrl: 'userlogo.jpg', // Replace with actual avatar URL
 };
 
 const App: React.FC = () => {
   const menuItems = [
-    { icon: <AssignmentIcon />, text: 'Assignments', route: '/dashboard' },
-    { icon: <PersonIcon />, text: 'Profile', route: '/profile' },
+    { icon: <PersonAdd />, text: 'Add Teacher', route: '/addteacher' },
+    {
+      icon: <Schedule />,
+      text: 'Schedule of Teacher',
+      route: '/scheduleofteacher',
+    },
+    { icon: <Schedule />, text: 'Schedule', route: '/schedule' },
+    { icon: <Schedule />, text: 'Leave Management', route: '/leavemanagement' },
   ];
 
   return (
@@ -36,11 +45,18 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
           <Sidebar menuItems={menuItems} />
           <div style={{ flex: 1 }}>
-            <Header user={user} />
+            <Navbar user={user} menuItems={menuItems} />
             <div style={{ padding: '16px' }}>
               <Routes>
-                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/" element={<DashboardPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route
+                  path="/scheduleofteacher"
+                  element={<SchedulesOfTeachers />}
+                />
+                <Route path="/addteacher" element={<AddTeacher />} />
+                <Route path="/schedule" element={<SchedulePage />} />
+                <Route path="/leavemanagement" element={<LeaveManagement />} />
               </Routes>
             </div>
           </div>

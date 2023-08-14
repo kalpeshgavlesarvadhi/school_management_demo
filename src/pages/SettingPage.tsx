@@ -12,7 +12,7 @@ import {
 const SettingsPage = () => {
   return (
     <Container maxWidth="xl">
-      <Box mt={3}>
+      <Box>
         <Typography variant="h4" gutterBottom>
           Settings
         </Typography>
