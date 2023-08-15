@@ -1,6 +1,5 @@
 // import  from '@mui/icons-material/Menu';
 import {
-  Dashboard,
   ExitToApp,
   Menu,
   Notifications,
@@ -59,7 +58,7 @@ const SearchBar = styled('div')(({ theme }) => ({
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   background: theme.palette.primary.main, // Change this to your desired background color
   position: 'sticky',
-  top: 1,
+  top: 0,
   zIndex: 2,
 }));
 
@@ -86,13 +85,13 @@ const UserRole = styled(Typography)({
   opacity: 0.7,
 });
 
-interface HeaderProps {
-  user: {
-    name: string;
-    role: string;
-    avatarUrl: string;
-  };
-}
+// interface HeaderProps {
+//   user: {
+//     name: string;
+//     role: string;
+//     avatarUrl: string;
+//   };
+// }
 
 const Navbar: React.FC<any> = ({ user, menuItems }) => {
   const theme = useTheme();
@@ -148,7 +147,7 @@ const Navbar: React.FC<any> = ({ user, menuItems }) => {
           }}
         >
           {/* ... Search Bar and other components ... */}
-          {!isMobile && (
+          {!isMobile && !isTablet && (
             <SearchBar>
               <IconButton size="large" color="inherit">
                 <Search />
@@ -199,7 +198,7 @@ const Navbar: React.FC<any> = ({ user, menuItems }) => {
               </LogoContainer>
             </DrawerHeader>
             <List>
-              <ListItem
+              {/* <ListItem
                 button
                 component={StyledNavLink}
                 to="/"
@@ -209,7 +208,7 @@ const Navbar: React.FC<any> = ({ user, menuItems }) => {
                   <Dashboard />
                 </CustomListItemIcon>
                 <ListItemText primary={'Dashboard'} />
-              </ListItem>
+              </ListItem> */}
               {menuItems.map((item: any) => (
                 <ListItem
                   button

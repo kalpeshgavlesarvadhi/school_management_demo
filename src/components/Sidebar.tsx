@@ -1,7 +1,6 @@
 import {
   ChevronLeft,
   ChevronRight,
-  Dashboard,
   ExitToApp,
   Settings,
 } from '@mui/icons-material';
@@ -20,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const drawerWidth = 180;
+const drawerWidth = 240;
 const drawerWidthCollapsed = 85;
 
 export const DrawerHeader = styled('div')(({ theme }: { theme: Theme }) => ({
@@ -66,6 +65,7 @@ export const LogoText = styled('p')({
 
 export const StyledNavLink = styled(NavLink)(({ theme }) => ({
   textDecoration: 'none',
+  // padding: '6px 0px !important',
   color: 'inherit',
   '&.active': {
     backgroundColor: theme.palette.primary.main,
@@ -75,7 +75,7 @@ export const StyledNavLink = styled(NavLink)(({ theme }) => ({
     },
   },
   '&:hover': {
-    backgroundColor: '#2b76d25e !important',
+    backgroundColor: '#79b5ff5e !important',
     color: 'inherit',
     '& .MuiListItemIcon-root': {
       color: 'inherit',
@@ -173,19 +173,14 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
           </LogoContainer>
         </DrawerHeader>
         <List>
-          <ListItem button component={StyledNavLink} to="/">
+          {/* <ListItem button component={StyledNavLink} to="/">
             <CustomListItemIcon>
               <Dashboard />
             </CustomListItemIcon>
             <ListItemText primary={isSidebarOpen ? 'Dashboard' : ''} />
-          </ListItem>
+          </ListItem> */}
           {menuItems.map((item: any) => (
-            <ListItem
-              button
-              key={item.text}
-              component={StyledNavLink}
-              to={item.route}
-            >
+            <ListItem key={item.text} component={StyledNavLink} to={item.route}>
               <CustomListItemIcon>{item.icon}</CustomListItemIcon>
               <ListItemText primary={isSidebarOpen ? item.text : ''} />
             </ListItem>
@@ -193,13 +188,13 @@ const Sidebar: React.FC<any> = ({ menuItems }) => {
         </List>
         <BottomIcons>
           <List>
-            <ListItem button component={StyledNavLink} to="/settings">
+            <ListItem component={StyledNavLink} to="/settings">
               <CustomListItemIcon>
                 <Settings />
               </CustomListItemIcon>
               <ListItemText primary={isSidebarOpen ? 'Settings' : ''} />
             </ListItem>
-            <ListItem button component={StyledNavLink} to="/logout">
+            <ListItem component={StyledNavLink} to="/logout">
               <CustomListItemIcon>
                 <ExitToApp />
               </CustomListItemIcon>

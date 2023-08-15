@@ -3,7 +3,6 @@ import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
 interface TeacherFormData {
-  id: string;
   username: string;
   firstname: string;
   lastname: string;
@@ -15,21 +14,22 @@ interface TeacherFormData {
 
 const AddTeacher: React.FC = () => {
   const [formData, setFormData] = useState<TeacherFormData>({
-    id: '',
     username: '',
     firstname: '',
     lastname: '',
     email: '',
     phone: '',
-    role: '',
+    role: 'Teacher', // Default role is set to 'teacher'
     password: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>
+  ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name as string]: value,
     }));
   };
 
@@ -40,44 +40,23 @@ const AddTeacher: React.FC = () => {
     console.log('Form data:', formData);
     // Reset the form after submission
     setFormData({
-      id: '',
       username: '',
       firstname: '',
       lastname: '',
       email: '',
       phone: '',
-      role: '',
+      role: 'Teacher', // Reset role to 'teacher'
       password: '',
     });
   };
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Add Teacher
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="ID"
-              name="id"
-              value={formData.id}
-              onChange={handleChange}
-              required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Username"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              fullWidth
-            />
-          </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               label="First Name"
@@ -93,6 +72,16 @@ const AddTeacher: React.FC = () => {
               label="Last Name"
               name="lastname"
               value={formData.lastname}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               required
               fullWidth
@@ -125,9 +114,9 @@ const AddTeacher: React.FC = () => {
               label="Role"
               name="role"
               value={formData.role}
-              onChange={handleChange}
               required
               fullWidth
+              disabled
             />
           </Grid>
           <Grid item xs={12}>

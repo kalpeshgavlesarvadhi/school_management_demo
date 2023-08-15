@@ -34,7 +34,7 @@ const AssignmentPage: React.FC = () => {
     <div>
       <CssBaseline />
       <Container maxWidth="md">
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Assignments
         </Typography>
         <Grid container spacing={2}>

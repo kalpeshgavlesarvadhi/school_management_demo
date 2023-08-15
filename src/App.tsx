@@ -1,14 +1,21 @@
-import { PersonAdd, Schedule } from '@mui/icons-material';
+import {
+  Assignment,
+  Dashboard,
+  PersonAdd,
+  Schedule,
+  WorkOutline,
+} from '@mui/icons-material';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/system';
 import Navbar from 'components/Navbar';
 import Sidebar from 'components/Sidebar';
-import DashboardPage from 'pages/DashboardPage';
-import SchedulePage from 'pages/SchedulePage';
-import SchedulesOfTeachers from 'pages/SchedulesOfTeachers';
 import SettingsPage from 'pages/SettingPage';
-import AddTeacher from 'pages/forms/AddTeacher';
-import LeaveManagement from 'pages/forms/LeaveManagement';
+import DashboardPage from 'pages/principal/DashboardPage';
+import LeaveManagement from 'pages/principal/LeaveManagement';
+import SchedulePage from 'pages/principal/SchedulePage';
+import SchedulesOfTeachers from 'pages/principal/SchedulesOfTeachers';
+import AddTeacher from 'pages/principal/forms/AddTeacher';
+import AssignClass from 'pages/principal/forms/AssignClass';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -23,21 +30,48 @@ export const theme = createTheme({
 
 const user = {
   name: 'John Doe',
-  role: 'Admin',
+  role: 'Principal',
   avatarUrl: 'userlogo.jpg', // Replace with actual avatar URL
 };
 
+interface MenuItem {
+  icon: React.ReactNode;
+  text: string;
+  route: string;
+}
+
 const App: React.FC = () => {
-  const menuItems = [
-    { icon: <PersonAdd />, text: 'Add Teacher', route: '/addteacher' },
-    {
-      icon: <Schedule />,
-      text: 'Schedule of Teacher',
-      route: '/scheduleofteacher',
-    },
-    { icon: <Schedule />, text: 'Schedule', route: '/schedule' },
-    { icon: <Schedule />, text: 'Leave Management', route: '/leavemanagement' },
-  ];
+  let menuItems: MenuItem[] = [];
+
+  if (user.role === 'Principal') {
+    menuItems = [
+      { icon: <Dashboard />, text: 'Dashboard', route: '/dashboard' },
+      { icon: <PersonAdd />, text: 'Add Teacher', route: '/addteacher' },
+      {
+        icon: <Schedule />,
+        text: 'Schedule of Teacher',
+        route: '/scheduleofteacher',
+      },
+      {
+        icon: <WorkOutline />,
+        text: 'Leave Management',
+        route: '/leavemanagement',
+      },
+      {
+        icon: <Assignment />,
+        text: 'Class Assign',
+        route: '/assignclass',
+      },
+    ];
+  } else if (user.role === 'Teacher') {
+    menuItems = [
+      // Teacher menu items
+    ];
+  } else if (user.role === 'Student') {
+    menuItems = [
+      // Student menu items
+    ];
+  }
 
   return (
     <div style={{ display: 'flex' }}>
@@ -46,9 +80,9 @@ const App: React.FC = () => {
           <Sidebar menuItems={menuItems} />
           <div style={{ flex: 1 }}>
             <Navbar user={user} menuItems={menuItems} />
-            <div style={{ padding: '16px' }}>
+            <div>
               <Routes>
-                <Route path="/" element={<DashboardPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route
                   path="/scheduleofteacher"
@@ -57,6 +91,7 @@ const App: React.FC = () => {
                 <Route path="/addteacher" element={<AddTeacher />} />
                 <Route path="/schedule" element={<SchedulePage />} />
                 <Route path="/leavemanagement" element={<LeaveManagement />} />
+                <Route path="/assignclass" element={<AssignClass />} />
               </Routes>
             </div>
           </div>

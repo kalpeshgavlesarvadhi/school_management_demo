@@ -33,7 +33,7 @@ const DashboardPage: React.FC = () => {
 
   const graphCardStyle = {
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-    width: isSmScreen ? '100%' : isMdScreen ? '82%' : '49%',
+    width: isSmScreen ? '100%' : isMdScreen ? '82%' : '48%',
     margin: 'auto',
     height: '100%',
   };
@@ -41,7 +41,7 @@ const DashboardPage: React.FC = () => {
   return (
     <Container maxWidth="xl">
       <Box>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Dashboard
         </Typography>
         <Box mt={0} sx={{ display: 'flex', flexWrap: 'wrap' }}>

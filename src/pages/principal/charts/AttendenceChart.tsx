@@ -149,9 +149,7 @@ const AttendanceChart: React.FC = () => {
     },
   ];
 
-  // const chartHeight = isSmScreen ? 200 : isMdScreen ? 250 : 300; // Adjust the height based on screen size
-  // const chartHeight = '100%'; // Adjust the height based on screen size
-  const chartWidth = isSmScreen ? 230 : isMdScreen ? '99.9%' : '100%'; // Adjust the height based on screen size
+  const chartWidth = isSmScreen ? '100%' : isMdScreen ? '99.9%' : '100%'; // Adjust the height based on screen size
   return (
     <Container maxWidth="xl">
       <Box height={'100%'} width={chartWidth}>
